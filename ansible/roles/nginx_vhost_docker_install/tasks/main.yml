@@ -1,0 +1,34 @@
+---
+- name: Ensure directries created
+  file:
+   state: directory
+   path: "{{ item }}"
+  loop:
+    - /app
+
+- name: copy app to target host
+  copy:
+    src: ../../../../app
+    dest: /
+
+- name: debug ls
+  shell: ls -la /app
+  register: ls_result
+
+- name: debug
+  debug: 
+    var: ls_result.stdout_lines
+
+- name: docker started
+  service:
+    name: docker
+    state: started
+
+#Я не понял почему, в этом случае не сработал chdir: /app, поэтому пришлось колхозить с cd =(
+- name: docker-compose deploy
+  shell: |
+    cd /app
+    docker-compose rm -f -a && \
+    docker-compose up -d --build
+  become: yes
+  
