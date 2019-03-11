@@ -10,4 +10,4 @@ For install you need  execute `cd terraform` and execute `terraform apply`.
 
 # To do
 
-Oh. I don't know why, but health checks was not create. I can't fix it.
+Oh. I don't know why, but health check was not create. I can't fix it.
